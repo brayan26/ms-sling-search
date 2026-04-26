@@ -3,6 +3,23 @@ spring:
     name: sling-search-challenge
 
 adapters:
+  persistence:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/sling_db
+      username: "${DB_USERNAME}"
+      password: "${DB_PASSWORD}"
+      driverClassName: org.postgresql.Driver
+      hikari:
+        maximumPoolSize: 10
+        minimumIdle: 2
+        idleTimeout: 30000
+        maxLifetime: 1800000
+        connectionTimeout: 20000
+    jpa:
+      databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        ddl-auto: update
+
   kafka:
     topic: ms.sling.search.write.v1
     servers: localhost:9092
