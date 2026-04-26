@@ -22,7 +22,7 @@ public class KafkaProducerConfig {
     private final String servers;
     private final String acks;
     private final int retries;
-    private final long batchSize;
+    private final Integer batchSize;
     private final int linger;
     private final long buffer;
     private final int flightRequest;
@@ -32,7 +32,7 @@ public class KafkaProducerConfig {
             @Value("${adapters.kafka.servers}") String servers,
             @Value("${adapters.kafka.producer.acks}") String acks,
             @Value("${adapters.kafka.producer.retries}") int retries,
-            @Value("${adapters.kafka.producer.batch.size}") long batchSize,
+            @Value("${adapters.kafka.producer.batch.size}") int batchSize,
             @Value("${adapters.kafka.producer.linger.ms}") int linger,
             @Value("${adapters.kafka.producer.buffer.memory}") long buffer,
             @Value("${adapters.kafka.producer.max.flight.request}") int flightRequest,
