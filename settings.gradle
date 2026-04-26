@@ -8,7 +8,6 @@ pluginManagement {
 
 rootProject.name = 'sling-search-challenge'
 
-//include('application', 'domain', 'infrastructure')
 include ':app-service'
 include ':model'
 include ':usecase'
@@ -17,5 +16,9 @@ project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
 include ':persistence-db'
 project(':persistence-db').projectDir = file('./infrastructure/driven-adapters/persistence-db')
+include ':hash'
+project(':hash').projectDir = file('./infrastructure/driven-adapters/hash')
+include ':kafka-producer'
+project(':kafka-producer').projectDir = file('./infrastructure/driven-adapters/kafka-producer')
 include ':service-web'
 project(':service-web').projectDir = file('./infrastructure/entry-points/service-web')

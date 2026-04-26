@@ -5,6 +5,8 @@ dependencies {
     implementation project(':usecase')
     implementation project(':persistence-db')
     implementation project(':service-web')
+    implementation project(':kafka-producer')
+    implementation project(':hash')
 
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter'
