@@ -1,4 +1,4 @@
-package com.sling.model.search.gateway;
+package com.sling.model.search.service;
 
 import com.sling.model.search.Search;
 

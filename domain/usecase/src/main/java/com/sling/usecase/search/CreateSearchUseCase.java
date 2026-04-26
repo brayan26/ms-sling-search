@@ -1,9 +1,9 @@
 package com.sling.usecase.search;
 
 import com.sling.model.search.Search;
-import com.sling.model.search.gateway.SearchHashServicePort;
+import com.sling.model.search.service.SearchHashServicePort;
 import com.sling.model.search.valueobject.SearchId;
-import com.sling.model.shared.gateway.EventPublisherPort;
+import com.sling.model.search.port.EventPublisherPort;
 import com.sling.usecase.IUseCase;
 import lombok.RequiredArgsConstructor;
 
