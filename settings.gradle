@@ -24,3 +24,5 @@ include ':service-web'
 project(':service-web').projectDir = file('./infrastructure/entry-points/service-web')
 include ':kafka-consumer'
 project(':kafka-consumer').projectDir = file('./infrastructure/entry-points/kafka-consumer')
+include ':json-helper'
+project(':json-helper').projectDir = file('./infrastructure/helpers/json-helper')

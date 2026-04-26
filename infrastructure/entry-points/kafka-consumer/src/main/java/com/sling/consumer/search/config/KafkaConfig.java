@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -58,11 +59,7 @@ public class KafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, String> listenerContainerFactory() throws UnknownHostException {
         ConcurrentKafkaListenerContainerFactory<String, String> listenerContainerFactory = new ConcurrentKafkaListenerContainerFactory<>();
         listenerContainerFactory.setConsumerFactory(consumerFactory());
-        //Read Batch message
-//        listenerContainerFactory.setBatchListener(true);
-        //Threads to consume messages
-        //value defined by the number of partitions in the topic
-//        listenerContainerFactory.setConcurrency(5);
+        listenerContainerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         return listenerContainerFactory;
     }
 }

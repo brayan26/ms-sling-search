@@ -27,7 +27,7 @@ public class SearchRestController {
     }
 
     @GetMapping(path = "/count", produces = {"application/json"})
-    public ResponseEntity<?> getSearchCount(@RequestParam String searchId) {
+    public ResponseEntity<?> getSearchCount(@RequestParam(value = "searchId") String searchId) {
         return ResponseEntity.ok(getSearchCountUseCase.execute(searchId));
     }
 }

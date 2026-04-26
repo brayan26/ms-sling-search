@@ -16,7 +16,7 @@ public interface SearchMapper {
     SearchMapper MAPPER = Mappers.getMapper(SearchMapper.class);
 
     @Mapping(target = "ages", expression = "java(List.copyOf(dto.ages()))")
-    @Mapping(target = "checkIn", expression = "java(LocalDate.parse(dto.checkIn(), FORMATTER))")
-    @Mapping(target = "checkOut", expression = "java(LocalDate.parse(dto.checkOut(), FORMATTER))")
+    @Mapping(target = "checkIn", expression = "java(LocalDate.parse(dto.checkIn(), FORMATTER).toString())")
+    @Mapping(target = "checkOut", expression = "java(LocalDate.parse(dto.checkOut(), FORMATTER).toString())")
     Search toDomain(SearchRequestDto dto);
 }

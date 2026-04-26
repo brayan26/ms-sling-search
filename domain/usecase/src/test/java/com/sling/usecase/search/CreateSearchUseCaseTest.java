@@ -26,8 +26,8 @@ import static org.mockito.Mockito.when;
 class CreateSearchUseCaseTest {
 
     private static final String HOTEL_ID = "1234";
-    private static final LocalDate CHECK_IN = LocalDate.of(2026, 5, 1);
-    private static final LocalDate CHECK_OUT = LocalDate.of(2026, 5, 5);
+    private static final String CHECK_IN = LocalDate.of(2026, 5, 1).toString();
+    private static final String CHECK_OUT = LocalDate.of(2026, 5, 5).toString();
     private static final List<Integer> AGES = List.of(30, 25);
     private static final String GENERATED_HASH = "abc123hash";
     private static final String DIFFERENT_HASH = "xyz789hash";

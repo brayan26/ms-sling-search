@@ -1,6 +1,8 @@
 package com.sling.kafka.producer.config;
 
 import com.sling.kafka.producer.KafkaPublish;
+import com.sling.model.helper.gateways.JsonHelper;
+import com.sling.model.search.port.EventPublisherPort;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
@@ -82,8 +84,11 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaPublish toKafkaPublish(@Value("${adapters.kafka.producer.key}") String producerKey,
-                                       @Value("${adapters.kafka.topic}") String topicIn) {
-        return new KafkaPublish(producerKey, topicIn, kafkaTemplate());
+    public EventPublisherPort eventPublisherPort(
+            @Value("${adapters.kafka.producer.key}") String producerKey,
+            @Value("${adapters.kafka.topic}") String topicName,
+            KafkaTemplate<String, String> kafkaTemplate,
+            JsonHelper jsonHelper) {
+        return new KafkaPublish(producerKey, topicName, kafkaTemplate, jsonHelper);
     }
 }
