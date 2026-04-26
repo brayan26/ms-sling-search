@@ -1,3 +1,24 @@
 spring:
   application:
     name: sling-search-challenge
+
+adapters:
+  kafka:
+    topic: ms.sling.search.write.v1
+    servers: localhost:9092
+    producer:
+      key: ms-template-api
+      retries: 3
+      acks: all
+      max:
+        flight:
+          request: 5
+      enable:
+        idempotence: true
+      batch:
+        size: 16384
+      buffer:
+        memory: 33554432
+      linger:
+        ms: 10
+
