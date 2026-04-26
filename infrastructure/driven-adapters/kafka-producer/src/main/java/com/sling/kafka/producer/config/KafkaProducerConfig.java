@@ -19,27 +19,39 @@ import java.util.Map;
 
 @Configuration
 public class KafkaProducerConfig {
-    @Value("${adapters.kafka.servers}")
-    private String server;
-    @Value("${adapters.kafka.producer.acks}")
-    private String acks;
-    @Value("${adapters.kafka.producer.retries}")
-    private int retries;
-    @Value("${adapters.kafka.producer.batch.size}")
-    private long batchSize;
-    @Value("${adapters.kafka.producer.linger.ms}")
-    private int linger;
-    @Value("${adapters.kafka.producer.buffer.memory}")
-    private long buffer;
-    @Value("${adapters.kafka.producer.max.flight.request}")
-    private int flightRequest;
-    @Value("${adapters.kafka.producer.enable.idempotence}")
-    private boolean idempotence;
+    private final String servers;
+    private final String acks;
+    private final int retries;
+    private final long batchSize;
+    private final int linger;
+    private final long buffer;
+    private final int flightRequest;
+    private final boolean idempotence;
+
+    public KafkaProducerConfig(
+            @Value("${adapters.kafka.servers}") String servers,
+            @Value("${adapters.kafka.producer.acks}") String acks,
+            @Value("${adapters.kafka.producer.retries}") int retries,
+            @Value("${adapters.kafka.producer.batch.size}") long batchSize,
+            @Value("${adapters.kafka.producer.linger.ms}") int linger,
+            @Value("${adapters.kafka.producer.buffer.memory}") long buffer,
+            @Value("${adapters.kafka.producer.max.flight.request}") int flightRequest,
+            @Value("${adapters.kafka.producer.enable.idempotence}") boolean idempotence
+    ) {
+        this.servers = servers;
+        this.acks = acks;
+        this.retries = retries;
+        this.batchSize = batchSize;
+        this.linger = linger;
+        this.buffer = buffer;
+        this.flightRequest = flightRequest;
+        this.idempotence = idempotence;
+    }
 
     @Bean
     public Map<String, Object> producerProps() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
         props.put(ProducerConfig.ACKS_CONFIG, acks);
         props.put(ProducerConfig.RETRIES_CONFIG, retries);
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
