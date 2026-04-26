@@ -15,6 +15,17 @@ plugins {
     id 'jacoco'
 }
 
+ext {
+    sharedCoverageExclusions = [
+            '**/mapper/**',
+            '**/constant/**',
+            '**/enums/**',
+            '**/helper/**',
+            '**/SlingSearchChallengeApplication*',
+            '**/config/**'
+    ]
+}
+
 allprojects {
     group = 'com.sling'
     version = '1.0.0'
@@ -65,10 +76,44 @@ subprojects {
     }
 
     jacocoTestReport {
+        dependsOn test
         reports {
-            xml.required.set(true)
-            html.required.set(true)
-            csv.required.set(false)
+            xml.setRequired true
+            xml.setOutputLocation layout.buildDirectory.file("reports/jacoco.xml")
+            csv.setRequired false
+            html.setOutputLocation layout.buildDirectory.dir("reports/jacocoHtml")
         }
     }
+}
+
+jacoco {
+    toolVersion = "${jacocoVersion}"
+    reportsDirectory.set(layout.buildDirectory.dir("reports"))
+}
+
+tasks.register('jacocoMergedReport', JacocoReport) {
+    dependsOn = [test, subprojects.jacocoTestReport]
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom(files(subprojects.collectMany { subproject ->
+        subproject.sourceSets.main.output.classesDirs.files.collect { classesDir ->
+            fileTree(dir: classesDir, exclude: rootProject.ext.sharedCoverageExclusions)
+        }
+    }))
+    executionData.setFrom project.fileTree(dir: '.', include: '**/build/jacoco/test.exec')
+    reports {
+        xml.setRequired true
+        csv.setRequired false
+        html.setRequired true
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true'
+    ]
+}
+
+tasks.named('wrapper') {
+    gradleVersion = '9.2.1'
 }
