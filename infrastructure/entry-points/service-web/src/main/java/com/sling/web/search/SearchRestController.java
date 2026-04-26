@@ -7,6 +7,7 @@ import com.sling.web.search.mapper.SearchMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class SearchRestController {
         return ResponseEntity.ok(createSearchUseCase.execute(SearchMapper.MAPPER.toDomain(dto)));
     }
 
-    @PostMapping(path = "/count", produces = {"application/json"})
+    @GetMapping(path = "/count", produces = {"application/json"})
     public ResponseEntity<?> getSearchCount(@RequestParam String searchId) {
         return ResponseEntity.ok(getSearchCountUseCase.execute(searchId));
     }
