@@ -19,7 +19,7 @@ public class KafkaConsumer {
     private final ExecutorService executor;
 
     @KafkaListener(
-            topics = "hotel_availability_searches",
+            topics = "${adapters.kafka.topic}",
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void consume(ConsumerRecord<String, SearchEvent> record, Acknowledgment ack) {
