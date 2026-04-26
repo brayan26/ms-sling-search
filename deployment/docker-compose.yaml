@@ -1,0 +1,80 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres-sling
+    environment:
+      POSTGRES_USER: reactive
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: sling_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U reactive -d sling_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_network
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.5.3
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    healthcheck:
+      test: [ "CMD", "echo", "ruok", "|", "nc", "localhost", "2181", "|", "grep", "imok" ]
+      interval: 40s
+      timeout: 20s
+      retries: 3
+    networks:
+      - app_network
+  kafka:
+    image: confluentinc/cp-enterprise-kafka:5.5.3
+    depends_on: [ zookeeper ]
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "kafka-broker-api-versions --bootstrap-server=kafka:9092" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9991
+    ports:
+      - "9092:9092"
+    networks:
+      - app_network
+  command_after_start:
+    image: confluentinc/cp-enterprise-kafka:5.5.3
+    depends_on: [ kafka ]
+    volumes:
+      - ./init.sh:/init.sh
+    command: [ "sh", "-c", "ls -a && chmod +x /init.sh && /init.sh" ]
+    networks:
+      - app_network
+  ms-sling-search:
+    build:
+      context: ../
+      dockerfile: deployment/Dockerfile
+    container_name: ms-sling-search
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      command_after_start:
+        condition: service_started
+    env_file:
+      - ../deployment/.env
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge
+volumes:
+  postgres_data:
