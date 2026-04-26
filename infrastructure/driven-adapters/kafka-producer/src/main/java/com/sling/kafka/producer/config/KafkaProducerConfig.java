@@ -1,5 +1,6 @@
 package com.sling.kafka.producer.config;
 
+import com.sling.kafka.producer.KafkaPublish;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
@@ -66,5 +67,11 @@ public class KafkaProducerConfig {
     @Bean
     public MeterRegistry meterRegistry() {
         return new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    }
+
+    @Bean
+    public KafkaPublish toKafkaPublish(@Value("${adapters.kafka.producer.key}") String producerKey,
+                                       @Value("${adapters.kafka.topic}") String topicIn) {
+        return new KafkaPublish(producerKey, topicIn, kafkaTemplate());
     }
 }

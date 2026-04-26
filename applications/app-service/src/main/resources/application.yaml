@@ -7,7 +7,7 @@ adapters:
     topic: ms.sling.search.write.v1
     servers: localhost:9092
     producer:
-      key: ms-template-api
+      key: ms-sling-search
       retries: 3
       acks: all
       max:
