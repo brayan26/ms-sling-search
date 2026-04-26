@@ -1,0 +1,30 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation project(':persistence-db')
+    implementation project(':service-web')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    archiveFileName = "${rootProject.name}.${archiveExtension.get()}"
+}
+
+springBoot {
+    mainClass = "com.sling.search.SlingSearchChallengeApplication"
+    buildInfo()
+}

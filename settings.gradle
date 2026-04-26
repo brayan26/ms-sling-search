@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        //mavenLocal()
+        //maven { url = '...' }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'sling-search-challenge'
+
+//include('application', 'domain', 'infrastructure')
+include ':app-service'
+include ':model'
+include ':usecase'
+project(':app-service').projectDir = file('./applications/app-service')
+project(':model').projectDir = file('./domain/model')
+project(':usecase').projectDir = file('./domain/usecase')
+include ':persistence-db'
+project(':persistence-db').projectDir = file('./infrastructure/driven-adapters/persistence-db')
+include ':service-web'
+project(':service-web').projectDir = file('./infrastructure/entry-points/service-web')
