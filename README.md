@@ -104,14 +104,14 @@ ms-sling-search/
 ### Paso 1 — Compilar el proyecto
 
 ```bash
-./gradlew clean build
+./gradlew clean build bootJar
 ```
 
 ### Paso 2 — Levantar con Docker Compose
 
 ```bash
 cd deployment
-docker-compose up --build
+docker-compose up -d
 ```
 
 Esto levantará:
