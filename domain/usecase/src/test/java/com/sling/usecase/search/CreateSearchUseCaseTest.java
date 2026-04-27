@@ -60,7 +60,7 @@ class CreateSearchUseCaseTest {
 
         SearchId result = useCase.execute(command);
 
-        assertEquals(GENERATED_HASH, result.value());
+        assertEquals(GENERATED_HASH, result.searchId());
 
         verify(searchHashServicePort).generateHash(command);
 
@@ -126,7 +126,7 @@ class CreateSearchUseCaseTest {
         SearchId firstResult = useCase.execute(command);
         SearchId secondResult = useCase.execute(command);
 
-        assertEquals(firstResult.value(), secondResult.value());
+        assertEquals(firstResult.searchId(), secondResult.searchId());
         verify(searchHashServicePort, times(2)).generateHash(command);
     }
 
@@ -154,6 +154,6 @@ class CreateSearchUseCaseTest {
         SearchId firstResult = useCase.execute(command);
         SearchId secondResult = useCase.execute(commandWithReversedAges);
 
-        assertNotEquals(firstResult.value(), secondResult.value());
+        assertNotEquals(firstResult.searchId(), secondResult.searchId());
     }
 }

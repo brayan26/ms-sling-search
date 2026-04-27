@@ -1,0 +1,91 @@
+@startuml
+header sling-search-challenge
+
+' ===========================
+' Flujo 1: POST /api/v1/search
+' ===========================
+
+actor Client
+participant "REST API\n(SearchRestController)" as REST
+participant "CreateSearchUseCase" as CREATE_UC
+participant "SearchHashServicePort\n(SHA-256 Hash)" as HASH
+participant "EventPublisherPort\n(Kafka Producer)" as KP
+queue "Apache Kafka\n(search-topic)" as KAFKA
+participant "KafkaConsumer" as KC
+participant "SearchCountRepositoryPort\n(PostgreSQL Adapter)" as DB
+database "PostgreSQL" as PG
+
+== POST /api/v1/search ==
+
+Client -> REST : POST /api/v1/search\n(body: SearchRequestDto)
+
+activate REST
+REST -> CREATE_UC : execute(Search)
+
+activate CREATE_UC
+CREATE_UC -> HASH : generateHash(Search)
+
+activate HASH
+HASH --> CREATE_UC : hash (SHA-256)
+deactivate HASH
+
+CREATE_UC -> KP : publish(Search)
+
+activate KP
+KP -> KAFKA : Send message\n(search event)
+KP --> CREATE_UC : void
+deactivate KP
+
+CREATE_UC --> REST : SearchId(hash)
+deactivate CREATE_UC
+
+REST --> Client : 200 OK\nJSON Response (searchId)
+deactivate REST
+
+... Async processing ...
+
+KAFKA -> KC : Consume message\n(search event)
+
+activate KC
+KC -> DB : increment(hash)
+
+activate DB
+DB -> PG : UPSERT search_count
+PG --> DB : OK
+DB --> KC : void
+deactivate DB
+
+KC -> KC : ack.acknowledge()
+deactivate KC
+
+== GET /api/v1/count ==
+
+actor Client as Client2
+participant "REST API\n(SearchRestController)" as REST2
+participant "GetSearchCountUseCase" as GET_UC
+participant "SearchCountRepositoryPort\n(PostgreSQL Adapter)" as DB2
+database "PostgreSQL" as PG2
+
+Client2 -> REST2 : GET /api/v1/count\n(?searchId=hash)
+
+activate REST2
+REST2 -> GET_UC : execute(hash)
+
+activate GET_UC
+GET_UC -> DB2 : getCount(hash)
+
+activate DB2
+DB2 -> PG2 : SELECT count
+PG2 --> DB2 : count result
+DB2 --> GET_UC : Long (count)
+deactivate DB2
+
+GET_UC --> REST2 : Long (count)
+deactivate GET_UC
+
+REST2 --> Client2 : 200 OK\nJSON Response\n(searchId, count)
+deactivate REST2
+
+footer Página %page% of %lastpage%\nmade with ♥ by Sling Search Challenge
+title Diagrama de Secuencia - Sling Search Challenge
+@enduml
