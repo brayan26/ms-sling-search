@@ -3,7 +3,7 @@
 Microservicio de búsqueda de hoteles construido con **arquitectura hexagonal (Ports & Adapters)**, aplicando principios
 de **Clean Architecture** y patrones de diseño empresariales.
 
-## 🏗️ Patrones de Diseño Utilizados
+## Patrones de Diseño Utilizados
 
 | Patrón                                              | Descripción                                                                                                  |
 |-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
@@ -17,7 +17,7 @@ de **Clean Architecture** y patrones de diseño empresariales.
 
 ---
 
-## 🛠️ Tecnologías
+## ️ Tecnologías
 
 | Tecnología                  | Versión         | Uso                                         |
 |-----------------------------|-----------------|---------------------------------------------|
@@ -35,7 +35,7 @@ de **Clean Architecture** y patrones de diseño empresariales.
 
 ---
 
-## 🧅 Arquitectura Hexagonal
+## Arquitectura Hexagonal
 
 El proyecto está organizado en tres capas principales:
 
@@ -93,7 +93,7 @@ ms-sling-search/
 
 ---
 
-## 🚀 Instrucciones para Correr en Local
+## Instrucciones para Correr en Local
 
 ### Prerrequisitos
 
@@ -140,13 +140,13 @@ docker-compose down -v
 
 ---
 
-## 📐 Diagrama de Arquitectura
+## Diagrama de Arquitectura
 
 El diagrama de componentes se encuentra en [`docs/architecture.puml`](docs/architecture.puml).
 
 ---
 
-## 📝 Variables de Entorno
+## Variables de Entorno
 
 | Variable        | Valor por defecto (Docker)                       | Descripción                  |
 |-----------------|--------------------------------------------------|------------------------------|
