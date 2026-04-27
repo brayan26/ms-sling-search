@@ -43,7 +43,7 @@ El proyecto está organizado en tres capas principales:
 ┌──────────────────────────────────────────────────┐
 │                  INFRASTRUCTURE                  │
 │  ┌────────────┐              ┌────────────────┐  │
-│  │ Entry Points│             │Driven Adapters │  │
+│  │Entry Points│              │Driven Adapters │  │
 │  │ - REST API │              │ - PostgreSQL   │  │
 │  │ - Kafka    │              │ - Kafka Prod.  │  │
 │  │   Consumer │              │ - SHA-256 Hash │  │
@@ -138,6 +138,34 @@ docker-compose down -v
 > **Nota:** Las variables de entorno se configuran automáticamente desde `deployment/.env`. No es necesario modificarlas
 > para ejecución local con Docker Compose.
 
+---
+
+## Pruebas Unitarias y Cobertura de Código
+
+### Ejecutar las pruebas y generar el reporte de cobertura
+
+```bash
+./gradlew clean jacocoMergedReport
+```
+
+Este comando ejecuta todas las pruebas unitarias del proyecto y genera un reporte de cobertura consolidado con **JaCoCo
+**.
+
+### Ver el reporte de cobertura
+
+Una vez finalizada la ejecución, abrir el siguiente archivo en el navegador de su preferencia:
+
+```
+build/reports/jacocoMergedReport/html/index.html
+```
+
+En **macOS** se puede abrir directamente desde la terminal:
+
+```bash
+open build/reports/jacocoMergedReport/html/index.html
+```
+
+> **Nota:** El directorio build es el que se encuentra en el raiz del proyecto.
 ---
 
 ## Diagrama de Arquitectura
