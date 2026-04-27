@@ -126,7 +126,7 @@ Esto levantará:
 ### Paso 3 — Verificar
 
 ```bash
-curl http://localhost:8080/actuator/health
+curl http://localhost:8080/swagger-ui/index.html
 ```
 
 ### Paso 4 — Detener
