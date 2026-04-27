@@ -3,6 +3,7 @@ package com.sling.web.search;
 import com.sling.usecase.search.CreateSearchUseCase;
 import com.sling.usecase.search.GetSearchCountUseCase;
 import com.sling.web.search.dto.SearchRequestDto;
+import com.sling.web.search.dto.response.CountResponseDto;
 import com.sling.web.search.mapper.SearchMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,10 @@ public class SearchRestController {
 
     @GetMapping(path = "/count", produces = {"application/json"})
     public ResponseEntity<?> getSearchCount(@RequestParam(value = "searchId") String searchId) {
-        return ResponseEntity.ok(getSearchCountUseCase.execute(searchId));
+        CountResponseDto response = CountResponseDto.builder()
+                .searchId(searchId)
+                .count(getSearchCountUseCase.execute(searchId))
+                .build();
+        return ResponseEntity.ok(response);
     }
 }

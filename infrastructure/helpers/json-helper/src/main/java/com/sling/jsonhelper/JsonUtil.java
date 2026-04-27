@@ -2,11 +2,12 @@ package com.sling.jsonhelper;
 
 import com.sling.model.helper.gateways.JsonHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JsonUtil implements JsonHelper {
@@ -17,7 +18,8 @@ public class JsonUtil implements JsonHelper {
         try {
             return this.objectMapper.readValue(jsonString, clazz);
         } catch (JsonProcessingException ex) {
-            throw new RuntimeException("Error casting to Class: " + ex.getMessage());
+            log.error("Error transforming to Class: {}", ex.getMessage(), ex);
+            throw new RuntimeException("Error transforming to Class: " + ex.getMessage());
         }
     }
 
@@ -26,7 +28,8 @@ public class JsonUtil implements JsonHelper {
         try {
             return this.objectMapper.writeValueAsString(clazz);
         } catch (JsonProcessingException ex) {
-            throw new RuntimeException("Error casting to String, Json Object: " + ex.getMessage());
+            log.error("Error transforming to String: {}", ex.getMessage(), ex);
+            throw new RuntimeException("Error casting to String: " + ex.getMessage());
         }
     }
 }
