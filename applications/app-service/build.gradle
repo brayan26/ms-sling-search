@@ -9,7 +9,7 @@ dependencies {
     implementation project(':hash')
     implementation project(':kafka-consumer')
     implementation project(':json-helper')
-
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
