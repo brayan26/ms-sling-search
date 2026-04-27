@@ -18,9 +18,9 @@ plugins {
 ext {
     sharedCoverageExclusions = [
             '**/mapper/**',
-            '**/constant/**',
-            '**/enums/**',
-            '**/helper/**',
+            '**/server/**',
+            '**/commons/**',
+            '**/exceptions/**',
             '**/SlingSearchChallengeApplication*',
             '**/config/**'
     ]
